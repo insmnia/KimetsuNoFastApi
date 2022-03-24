@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from .api.api_v1.api import router as api_router
+from app.api.api_v1.api import router as api_router
 
-from .db.mongodb_utils import connect, close_connection
+from app.db.mongodb_utils import connect, close_connection
 
 app = FastAPI(title="KimetsuNoFastApi")
 
