@@ -1,6 +1,5 @@
-from typing import List
-
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from app.core.utils import OID, MongoModel
 
 
 class Hunter(BaseModel):
@@ -9,9 +8,5 @@ class Hunter(BaseModel):
     age: int
 
 
-class HunterInDB(Hunter):
-    id: int
-
-
-class HunterList(Hunter):
-    hunters: List[Hunter]
+class HunterInDB(MongoModel, Hunter):
+    id: OID = Field(alias="_id")
