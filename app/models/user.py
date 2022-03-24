@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
 
-class UserCreate(BaseModel):
+class User(BaseModel):
     username: str
-    password: str
 
+
+class UserInDB(User):
+    hashed_password: str
