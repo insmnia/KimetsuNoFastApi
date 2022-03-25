@@ -44,25 +44,20 @@ async def get_current_user(
 async def login_for_access_token(
         conn: AsyncIOMotorClient = Depends(get_database),
         form_data: OAuth2PasswordRequestForm = Depends()
-) -> dict:
+) -> Token:
     user: UserInDB = await UserService.authenticate_user(
         conn=conn,
         username=form_data.username,
         password=form_data.password
     )
-    print(user)
     if not user:
         raise unauthorized_exception
     access_token_expires = timedelta(minutes=TOKEN_EXPIRE_MINUTES)
-    access_token = TokenService.create_access_token(
+    access_token = await TokenService.create_access_token(
         data={"sub": user.username},
         expires_delta=access_token_expires
     )
-
-    return {
-        "access_key": access_token,
-        "token_type": "bearer"
-    }
+    return Token(access_token=access_token,token_type="bearer")
 
 
 @router.get('/users/me/', response_model=User)
@@ -77,7 +72,8 @@ async def get_user_me(
 async def test_user(
         conn: AsyncIOMotorClient = Depends(get_database)
 ):
+    await conn['kimetsu']['users'].delete_many({})
     print('Created test user')
     print(await UserService.get_password_hash("admin"))
     await conn['kimetsu']['users'].insert_one(
-        {"username": "admin2", "hashed_password": await UserService.get_password_hash("admin")})
+        {"username": "admin", "hashed_password": await UserService.get_password_hash("admin")})

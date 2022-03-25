@@ -10,7 +10,7 @@ class UserService:
 
     @classmethod
     async def verify_password(cls, plain_pass, hashed_pass) -> bool:
-        return cls.context.verify(plain_pass, hashed_pass)
+        return cls.context.verify(plain_pass,hashed_pass)
 
     @classmethod
     async def get_password_hash(cls, password):
@@ -33,7 +33,6 @@ class UserService:
             password: str
     ) -> UserInDB:
         db_user = await cls.get_user(conn, username)
-        print(password, db_user)
-        if not db_user or await cls.verify_password(password, db_user.hashed_password):
+        if not db_user or not await cls.verify_password(password, db_user.hashed_password):
             return False
         return db_user
