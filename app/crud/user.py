@@ -1,6 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.models.user import User
+
 from app.core.config import get_settings, users_collection_name
+from app.models.user import User
 
 settings = get_settings()
 
