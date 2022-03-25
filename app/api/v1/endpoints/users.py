@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.core.config import SECRET_KEY, ALGORITHM, TOKEN_EXPIRE_MINUTES
+from app.core.config import get_settings
 from app.core.http_exception import credential_exception, unauthorized_exception
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
@@ -15,6 +15,7 @@ from app.models.user import User, UserInDB
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/v1/token')
 router = APIRouter()
+settings = get_settings()
 
 
 async def get_current_user(
@@ -24,8 +25,8 @@ async def get_current_user(
     try:
         payload = jwt.decode(
             token=token,
-            key=SECRET_KEY,
-            algorithms=[ALGORITHM]
+            key=settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM]
         )
         username: str = payload.get('sub')
         if username is None:
@@ -54,7 +55,7 @@ async def login_for_access_token(
     )
     if not user:
         raise unauthorized_exception
-    access_token_expires = timedelta(minutes=TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=settings.TOKEN_EXPIRE_MINUTES)
     access_token = await TokenService.create_access_token(
         data={"sub": user.username},
         expires_delta=access_token_expires

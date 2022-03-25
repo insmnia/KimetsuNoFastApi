@@ -2,7 +2,9 @@ from datetime import timedelta, datetime
 
 from jose import jwt
 
-from app.core.config import SECRET_KEY, ALGORITHM
+from app.core.config import get_settings
+
+settings = get_settings()
 
 
 class TokenService:
@@ -22,7 +24,7 @@ class TokenService:
         to_encode.update({"exp": time_expires})
         token = jwt.encode(
             claims=to_encode,
-            key=SECRET_KEY,
-            algorithm=ALGORITHM
+            key=settings.SECRET_KEY,
+            algorithm=settings.ALGORITHM
         )
         return token

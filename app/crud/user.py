@@ -1,6 +1,8 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.models.user import User
-from app.core.config import MONGO_DB as db_name, users_collection_name
+from app.core.config import get_settings, users_collection_name
+
+settings = get_settings()
 
 
 def create_user(
@@ -8,4 +10,4 @@ def create_user(
         user: User
 ):
     doc_user = user.dict()
-    await conn[db_name][users_collection_name].insert_one(doc_user)
+    await conn[settings.MONGO_DB][users_collection_name].insert_one(doc_user)

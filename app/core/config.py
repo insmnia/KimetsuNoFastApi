@@ -1,21 +1,27 @@
-from dotenv import load_dotenv
-import os
+from functools import lru_cache
+from pydantic import BaseSettings
 
 
-load_dotenv(".env")
+class Settings(BaseSettings):
+    MONGO_HOST: str = 'localhost'
+    MONGO_PORT: int = 27017
+    MONGO_USER: str = 'admin'
+    MONGO_PASS: str = 'admin'
+    MONGO_DB: str = 'kimetsu'
+    #
+    SECRET_KEY: str
+    ALGORITHM: str
+    TOKEN_EXPIRE_MINUTES: int
 
-MONGO_HOST = os.getenv('MONGO_HOST')
-MONGO_PORT = int(os.getenv('MONGO_PORT'))
-MONGO_USER = os.getenv('MONGO_USER')
-MONGO_PASS = os.getenv('MONGO_PASS')
-MONGO_DB = os.getenv('MONGO_DB')
+    class Config:
+        env_file = '.env'
 
-MONGODB_URL = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}"
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()
+
 
 hunters_collection_name = 'hunters'
 teachers_collection_name = 'teachers'
 users_collection_name = 'users'
-
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALGORITHM = os.getenv('ALGORITHM')
-TOKEN_EXPIRE_MINUTES = int(os.getenv('TOKEN_EXPIRE_MINUTES'))

@@ -1,8 +1,10 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from passlib.context import CryptContext
 
-from app.core.config import MONGO_DB as db_name, users_collection_name
+from app.core.config import get_settings, users_collection_name
 from app.models.user import UserInDB
+
+settings = get_settings()
 
 
 class UserService:
@@ -10,7 +12,7 @@ class UserService:
 
     @classmethod
     async def verify_password(cls, plain_pass, hashed_pass) -> bool:
-        return cls.context.verify(plain_pass,hashed_pass)
+        return cls.context.verify(plain_pass, hashed_pass)
 
     @classmethod
     async def get_password_hash(cls, password):
@@ -21,7 +23,7 @@ class UserService:
             conn: AsyncIOMotorClient,
             username: str
     ) -> UserInDB:
-        user = await conn[db_name][users_collection_name].find_one({"username": username})
+        user = await conn[settings.db_name()][users_collection_name].find_one({"username": username})
         if user:
             return UserInDB(**user)
 
