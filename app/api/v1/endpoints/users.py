@@ -13,14 +13,14 @@ from app.db.mongodb import get_database
 from app.models.token import Token, TokenData
 from app.models.user import User, UserInDB
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/v1/token')
 router = APIRouter()
 
 
 async def get_current_user(
         conn: AsyncIOMotorClient = Depends(get_database),
         token: str = Depends(oauth2_scheme)
-):
+) -> User:
     try:
         payload = jwt.decode(
             token=token,
@@ -34,10 +34,12 @@ async def get_current_user(
     except JWTError:
         raise credential_exception
 
-    user = UserService.get_user(conn, token_data.username)
+    user = await UserService.get_user(conn, token_data.username)
     if user is None:
         raise credential_exception
-    return user
+    return User(
+        **user.dict()
+    )
 
 
 @router.post('/token', response_model=Token)
@@ -57,7 +59,7 @@ async def login_for_access_token(
         data={"sub": user.username},
         expires_delta=access_token_expires
     )
-    return Token(access_token=access_token,token_type="bearer")
+    return Token(access_token=access_token, token_type="bearer")
 
 
 @router.get('/users/me/', response_model=User)
@@ -73,7 +75,5 @@ async def test_user(
         conn: AsyncIOMotorClient = Depends(get_database)
 ):
     await conn['kimetsu']['users'].delete_many({})
-    print('Created test user')
-    print(await UserService.get_password_hash("admin"))
     await conn['kimetsu']['users'].insert_one(
         {"username": "admin", "hashed_password": await UserService.get_password_hash("admin")})
