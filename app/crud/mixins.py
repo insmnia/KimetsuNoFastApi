@@ -19,7 +19,7 @@ class CRUDMixin:
     async def create(
             cls,
             conn: AsyncIOMotorClient,
-            data
+            data,
     ):
         doc = data.dict()
         await conn[cls.db_name][cls.Collection].insert_one(doc)
@@ -32,7 +32,7 @@ class CRUDMixin:
             _id: OID
     ):
         data = await conn[cls.db_name][cls.Collection].find_one({"_id": _id})
-        return cls.RetrieveScheme(**data)
+        return cls.RetrieveDBScheme(**data)
 
     @classmethod
     async def list(
