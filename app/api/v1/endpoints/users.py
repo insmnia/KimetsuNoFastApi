@@ -12,7 +12,7 @@ from app.core.services.token import TokenService
 from app.core.services.user import UserService
 from app.db.mongodb import get_database
 from app.models.token import Token
-from app.models.user import User, UserInDB
+from app.models.user import UserBase, UserInDB, UserCreate
 from core.utils import OID
 from crud.user import UserCRUD
 
@@ -24,12 +24,12 @@ settings = get_settings()
 async def get_current_user(
         conn: AsyncIOMotorClient = Depends(get_database),
         token: str = Depends(oauth2_scheme)
-) -> User:
+) -> UserBase:
     token_data = await TokenService.get_token_data(token)
     user = await UserService.get_user(conn, token_data.username)
     if user is None:
         raise credential_exception
-    return User(
+    return UserBase(
         **user.dict()
     )
 
@@ -54,10 +54,10 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@router.get('/users/me/', response_model=User)
+@router.get('/users/me/', response_model=UserBase)
 async def get_user_me(
-        current_user: User = Depends(get_current_user)
-) -> User:
+        current_user: UserBase = Depends(get_current_user)
+) -> UserBase:
     return current_user
 
 
@@ -69,20 +69,20 @@ async def list_users(
     return users
 
 
-@router.post('/users/', response_model=User, status_code=HTTP_201_CREATED)
+@router.post('/users/', response_model=UserCreate, status_code=HTTP_201_CREATED)
 async def create_user(
-        user: User,
+        user: UserCreate,
         db: AsyncIOMotorClient = Depends(get_database)
-) -> User:
-    dbuser = await UserCRUD.create(db, user)
-    return dbuser
+) -> UserCreate:
+    await UserCRUD.create(db, user)
+    return
 
 
-@router.get('/users/{id}', response_model=User, status_code=HTTP_200_OK)
+@router.get('/users/{id}', response_model=UserBase, status_code=HTTP_200_OK)
 async def retrieve_user(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)
-) -> User:
+) -> UserBase:
     dbuser = await UserCRUD.retrieve(db, id)
     if not dbuser:
         raise HTTPException(

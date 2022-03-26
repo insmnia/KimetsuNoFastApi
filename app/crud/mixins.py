@@ -23,7 +23,7 @@ class CRUDMixin:
     ):
         doc = data.dict()
         await conn[cls.db_name][cls.Collection].insert_one(doc)
-        return cls.RetrieveScheme(doc)
+        return None
 
     @classmethod
     async def retrieve(
