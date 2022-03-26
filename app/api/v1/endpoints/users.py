@@ -1,9 +1,11 @@
 from datetime import timedelta
+from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from motor.motor_asyncio import AsyncIOMotorClient
+from starlette.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_404_NOT_FOUND
 
 from app.core.config import get_settings
 from app.core.http_exception import credential_exception, unauthorized_exception
@@ -12,6 +14,8 @@ from app.core.services.user import UserService
 from app.db.mongodb import get_database
 from app.models.token import Token, TokenData
 from app.models.user import User, UserInDB
+from core.utils import OID
+from crud.user import UserCRUD
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/v1/token')
 router = APIRouter()
@@ -70,11 +74,33 @@ async def get_user_me(
     return current_user
 
 
-# FIXME
-@router.post('/testuser')
-async def test_user(
-        conn: AsyncIOMotorClient = Depends(get_database)
-):
-    await conn['kimetsu']['users'].delete_many({})
-    await conn['kimetsu']['users'].insert_one(
-        {"username": "admin", "hashed_password": await UserService.get_password_hash("admin")})
+@router.get('/users/')
+async def list_users(
+        db: AsyncIOMotorClient = Depends(get_database)
+) -> List[UserInDB]:
+    users: List[UserInDB] = await UserCRUD.list(db)
+    return users
+
+
+@router.post('/users/', response_model=User, status_code=HTTP_201_CREATED)
+async def create_user(
+        user: User,
+        db: AsyncIOMotorClient = Depends(get_database)
+) -> User:
+    dbuser = await UserCRUD.create(db, user)
+    return dbuser
+
+
+@router.get('/users/{id}', response_model=User, status_code=HTTP_200_OK)
+async def retrieve_user(
+        id: OID,
+        db: AsyncIOMotorClient = Depends(get_database)
+) -> User:
+    dbuser = await UserCRUD.retrieve(db, id)
+    if not dbuser:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND,
+            detail=f"Hunter with <{id=}> not found"
+        )
+
+    return dbuser

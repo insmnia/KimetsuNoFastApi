@@ -1,14 +1,10 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-
-from app.core.config import get_settings, users_collection_name
-from app.models.user import User
-
-settings = get_settings()
+from app.core.config import users_collection_name
+from app.models.user import User, UserInDB
+from app.crud.mixins import CRUDMixin
 
 
-def create_user(
-        conn: AsyncIOMotorClient,
-        user: User
-):
-    doc_user = user.dict()
-    await conn[settings.MONGO_DB][users_collection_name].insert_one(doc_user)
+class UserCRUD(CRUDMixin):
+    Collection = users_collection_name
+    CreateScheme = User
+    RetrieveScheme = User
+    RetrieveDBScheme = UserInDB
