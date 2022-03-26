@@ -3,7 +3,6 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import jwt, JWTError
 from motor.motor_asyncio import AsyncIOMotorClient
 from starlette.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_404_NOT_FOUND
 
@@ -12,7 +11,7 @@ from app.core.http_exception import credential_exception, unauthorized_exception
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
 from app.db.mongodb import get_database
-from app.models.token import Token, TokenData
+from app.models.token import Token
 from app.models.user import User, UserInDB
 from core.utils import OID
 from crud.user import UserCRUD
@@ -26,19 +25,7 @@ async def get_current_user(
         conn: AsyncIOMotorClient = Depends(get_database),
         token: str = Depends(oauth2_scheme)
 ) -> User:
-    try:
-        payload = jwt.decode(
-            token=token,
-            key=settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
-        )
-        username: str = payload.get('sub')
-        if username is None:
-            raise credential_exception
-        token_data = TokenData(username=username)
-    except JWTError:
-        raise credential_exception
-
+    token_data = await TokenService.get_token_data(token)
     user = await UserService.get_user(conn, token_data.username)
     if user is None:
         raise credential_exception

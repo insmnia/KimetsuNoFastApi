@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
+
 from app.api.v1.api import router as api_router
 from app.core.config import get_settings
 from app.db.mongodb_utils import connect, close_connection
