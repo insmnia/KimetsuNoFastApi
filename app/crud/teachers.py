@@ -1,10 +1,10 @@
 from .mixins import CRUDMixin
-from app.models.teacher import Teacher, TeacherInDB
+from app.models.teacher import TeacherBase, TeacherBaseInDB
 from app.core.config import teachers_collection_name
 
 
 class TeacherCRUD(CRUDMixin):
     Collection = teachers_collection_name
-    CreateScheme = Teacher
-    RetrieveScheme = Teacher
-    RetrieveDBScheme = TeacherInDB
+    CreateScheme = TeacherBase
+    RetrieveScheme = TeacherBase
+    RetrieveDBScheme = TeacherBaseInDB

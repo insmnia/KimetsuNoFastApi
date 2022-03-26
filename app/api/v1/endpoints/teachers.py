@@ -7,33 +7,33 @@ from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND, HTTP_200_OK
 from app.core.utils import OID
 from app.crud.teachers import TeacherCRUD
 from app.db.mongodb import get_database
-from app.models.teacher import Teacher, TeacherInDB
+from app.models.teacher import TeacherBase, TeacherBaseInDB
 
 router = APIRouter()
 
 
-@router.get('/teachers/',response_model=List[TeacherInDB])
+@router.get('/teachers/', response_model=List[TeacherBaseInDB])
 async def list_hunters(
         db: AsyncIOMotorClient = Depends(get_database)
-) -> List[TeacherInDB]:
-    teachers: List[TeacherInDB] = await TeacherCRUD.list(db)
+) -> List[TeacherBaseInDB]:
+    teachers: List[TeacherBaseInDB] = await TeacherCRUD.list(db)
     return teachers
 
 
-@router.post('/teachers/', response_model=Teacher, status_code=HTTP_201_CREATED)
+@router.post('/teachers/', response_model=TeacherBase, status_code=HTTP_201_CREATED)
 async def create_hunter(
-        teacher: Teacher,
+        teacher: TeacherBase,
         db: AsyncIOMotorClient = Depends(get_database)
-) -> Teacher:
+) -> TeacherBase:
     dbteacher = await TeacherCRUD.create(db, teacher)
     return dbteacher
 
 
-@router.get('/teachers/{id}', response_model=Teacher, status_code=HTTP_200_OK)
+@router.get('/teachers/{id}', response_model=TeacherBase, status_code=HTTP_200_OK)
 async def retrieve_hunter(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)
-) -> Teacher:
+) -> TeacherBase:
     dbteacher = await TeacherCRUD.retrieve(db, id)
     if not dbteacher:
         raise HTTPException(
@@ -44,12 +44,12 @@ async def retrieve_hunter(
     return dbteacher
 
 
-@router.put('/teachers/{id}', response_model=Teacher, status_code=HTTP_200_OK)
+@router.put('/teachers/{id}', response_model=TeacherBase, status_code=HTTP_200_OK)
 async def update_hunter(
-        teacher: Teacher,
+        teacher: TeacherBase,
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database),
-) -> Teacher:
+) -> TeacherBase:
     pass
 
 

@@ -2,10 +2,10 @@ from pydantic import BaseModel, Field
 from app.core.utils import OID, MongoModel
 
 
-class Teacher(BaseModel):
+class TeacherBase(BaseModel):
     name: str
     style: str
 
 
-class TeacherInDB(MongoModel, Teacher):
+class TeacherBaseInDB(MongoModel, TeacherBase):
     id: OID = Field(alias="_id")
