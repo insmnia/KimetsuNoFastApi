@@ -7,6 +7,7 @@ __pycache__/
 __pycache__
 # C extensions
 *.so
+.pytest_cache
 
 # Distribution / packaging
 .Python
