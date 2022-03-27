@@ -1,5 +1,8 @@
-from conftests import UserFactory, hashed_pass_from_abc
+import pytest
+
+from app.core.services.token import TokenService
 from app.core.services.user import UserService
+from conftests import UserFactory, minutes
 
 
 def test_password_hashing():
@@ -9,5 +12,20 @@ def test_password_hashing():
     assert hashed_password is not None
 
 
-def test_password_hash_matching():
-    assert hashed_pass_from_abc == UserService.get_password_hash('abc')
+def test_token_generation(minutes):
+    user = UserFactory.stub()
+    assert TokenService.create_access_token(
+        data={"sub": user.username},
+        expires_delta=minutes
+    ) is not None
+
+
+@pytest.mark.asyncio
+async def test_token_validation(minutes):
+    user = UserFactory.stub()
+    token = await TokenService.create_access_token(
+        data={"sub": user.username},
+        expires_delta=minutes
+    )
+    token_data = await TokenService.get_token_data(token)
+    assert token_data.username == user.username
