@@ -16,6 +16,7 @@ Build on **Python: 3.8**.
 
 
 ## Installation and usage 
+> create env file and fill it as in example
 1. Localhost
    - ```pip install poetry```
    - ```poetry install```
