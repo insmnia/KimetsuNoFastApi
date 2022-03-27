@@ -14,16 +14,16 @@ router = APIRouter()
 async def list_hunters(
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> List[HunterBaseInDB]:
-    hunters: List[HunterBaseInDB] = await HunterCRUD.get_full_info_hunters(db)
+    hunters: List[HunterBaseInDB] = await HunterCRUD.list_full_info_hunters(db)
     return hunters
 
 
-@router.post('/hunters/', response_model=HunterBase, status_code=HTTP_201_CREATED)
+@router.post('/hunters/', status_code=HTTP_201_CREATED)
 async def create_hunter(
         hunter: HunterBase,
         db: AsyncIOMotorClient = Depends(get_database),
         teacher_id: OID = None,
-) -> HunterBase:
+):
     if teacher_id:
         await HunterCRUD.create_hunter_with_teacher(
             conn=db,

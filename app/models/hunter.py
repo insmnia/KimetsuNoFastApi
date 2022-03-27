@@ -14,4 +14,4 @@ class HunterBaseInDB(MongoModel, HunterBase):
 
 
 class HunterFull(HunterBaseInDB):
-    teacher: TeacherBaseInDB
+    teacher: TeacherBaseInDB = None

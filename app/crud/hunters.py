@@ -1,10 +1,12 @@
 from typing import List
 
+from motor.motor_asyncio import AsyncIOMotorClient
+
 from app.core.config import hunters_collection_name, teachers_collection_name
 from app.models.hunter import HunterBase, HunterBaseInDB, HunterFull
+from app.models.teacher import TeacherBaseInDB
 from core.utils import OID
 from .mixins import CRUDMixin
-from motor.motor_asyncio import AsyncIOMotorClient
 
 
 class HunterCRUD(CRUDMixin):
@@ -15,13 +17,28 @@ class HunterCRUD(CRUDMixin):
     FullRetrieveScheme = HunterFull
 
     @classmethod
-    async def get_full_info_hunters(
+    async def list_full_info_hunters(
             cls,
             conn: AsyncIOMotorClient
     ) -> List[HunterFull]:
-        hunters = await conn[cls.db_name][cls.Collection].find({})
-        print(hunters)
-        return []
+        hunters: List[HunterFull] = []
+        rows = conn[cls.db_name][cls.Collection].find({})
+
+        async for row in rows:
+            teacher = None
+            if row.get('teacher') is not None:
+                t = row.pop('teacher')
+                teacher = await conn[cls.db_name][teachers_collection_name].find_one(
+                    {"_id": t.id}
+                )
+
+            hunters.append(
+                HunterFull(
+                    teacher=TeacherBaseInDB(**teacher) if teacher else None,
+                    **row
+                )
+            )
+        return hunters
 
     @classmethod
     async def create_hunter_with_teacher(
@@ -36,4 +53,3 @@ class HunterCRUD(CRUDMixin):
             "$id": teacher_id
         }
         await conn[cls.db_name][cls.Collection].insert_one(data)
-
