@@ -1,7 +1,8 @@
+from datetime import timedelta
+
 from factory import Factory
 from faker import Faker
-from app.models.user import User
-from app.core.services.user import UserService
+from app.models.user import UserBase
 from pytest import fixture
 
 faker = Faker()
@@ -9,12 +10,12 @@ faker = Faker()
 
 class UserFactory(Factory):
     class Meta:
-        model = User
+        model = UserBase
 
     username = faker.name()
     password = faker.name() + 'psw'
 
 
 @fixture(autouse=True)
-def hashed_pass_from_abc():
-    return UserService.get_password_hash("abc")
+def minutes():
+    return timedelta(minutes=30)
