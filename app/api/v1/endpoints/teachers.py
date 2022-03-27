@@ -11,9 +11,8 @@ from app.models.teacher import TeacherBase, TeacherBaseInDB
 
 router = APIRouter()
 
-
 @router.get('/teachers/', response_model=List[TeacherBaseInDB])
-async def list_hunters(
+async def list_teachers(
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> List[TeacherBaseInDB]:
     teachers: List[TeacherBaseInDB] = await TeacherCRUD.list(db)
@@ -21,7 +20,7 @@ async def list_hunters(
 
 
 @router.post('/teachers/', response_model=TeacherBase, status_code=HTTP_201_CREATED)
-async def create_hunter(
+async def create_teacher(
         teacher: TeacherBase,
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> TeacherBase:
@@ -30,7 +29,7 @@ async def create_hunter(
 
 
 @router.get('/teachers/{id}', response_model=TeacherBase, status_code=HTTP_200_OK)
-async def retrieve_hunter(
+async def retrieve_teacher(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> TeacherBase:
@@ -44,17 +43,8 @@ async def retrieve_hunter(
     return dbteacher
 
 
-@router.put('/teachers/{id}', response_model=TeacherBase, status_code=HTTP_200_OK)
-async def update_hunter(
-        teacher: TeacherBase,
-        id: OID,
-        db: AsyncIOMotorClient = Depends(get_database),
-) -> TeacherBase:
-    pass
-
-
 @router.delete('/teachers/{id}', status_code=HTTP_200_OK)
-async def delete_hunter(
+async def delete_teacher(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> None:

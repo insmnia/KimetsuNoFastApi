@@ -42,15 +42,6 @@ async def retrieve_hunter(
     return dbhunter
 
 
-@router.put('/hunters/{id}', response_model=HunterBase, status_code=HTTP_200_OK)
-async def update_hunter(
-        hunter: HunterBase,
-        id: OID,
-        db: AsyncIOMotorClient = Depends(get_database),
-) -> HunterBase:
-    pass
-
-
 @router.delete('/hunters/{id}', status_code=HTTP_200_OK)
 async def delete_hunter(
         id: OID,
