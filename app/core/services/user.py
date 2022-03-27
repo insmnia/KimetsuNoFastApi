@@ -23,7 +23,7 @@ class UserService:
             conn: AsyncIOMotorClient,
             username: str
     ) -> UserInDB:
-        user = await conn[settings.db_name()][users_collection_name].find_one({"username": username})
+        user = await conn[settings.MONGO_DB][users_collection_name].find_one({"username": username})
         if user:
             return UserInDB(**user)
 
