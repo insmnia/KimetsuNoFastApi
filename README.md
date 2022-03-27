@@ -21,4 +21,4 @@ Build on **Python: 3.8**.
    - ```poetry install```
    - ```uvicorn app.main:app --port "8000" --bind "0.0.0.0" -- reload```
 2. Docker
-   - ...
+   - ```docker-compose up --build```
