@@ -16,3 +16,7 @@ Build on **Python: 3.8**.
 
 
 ## Installation and usage 
+1. Localhost
+  - ...
+2. Docker
+  - ...
