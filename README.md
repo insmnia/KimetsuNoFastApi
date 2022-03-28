@@ -23,4 +23,4 @@ Build on **Python: 3.8**.
 1. ```pip install poetry```
 2. ```poetry install```
 3. ```poetry shell```
-4. ```uvicorn app.main:app --bind "0.0.0.0" --port "8000" --reload --workers 2
+4. ```uvicorn app.main:app --bind "0.0.0.0" --port "8000" --reload --workers 2```
