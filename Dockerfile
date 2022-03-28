@@ -13,7 +13,7 @@ RUN pip install "poetry==$POETRY_VERSION"
 
 # Copy only requirements to cache them in docker layer
 WORKDIR .
-COPY poetry.lock pyproject.toml /code/
+COPY poetry.lock pyproject.toml ./
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
@@ -21,3 +21,6 @@ RUN poetry config virtualenvs.create false \
 
 # Creating folders, and files for a project:
 COPY . .
+RUN chmod +x entrypoint.sh
+CMD ["sh","entrypoint.sh"]
+CMD ["sh","run.sh"]
