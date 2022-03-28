@@ -28,7 +28,8 @@ class HunterCRUD(CRUDMixin):
             teacher = None
             if row.get('teacher') is not None:
                 t = row.pop('teacher')
-                teacher = await conn[cls.db_name][teachers_collection_name].find_one(
+                teacher = await conn[cls.db_name][teachers_collection_name]\
+                    .find_one(
                     {"_id": t.id}
                 )
 

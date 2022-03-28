@@ -11,7 +11,10 @@ from app.models.teacher import TeacherBase, TeacherBaseInDB
 
 router = APIRouter()
 
-@router.get('/teachers/', response_model=List[TeacherBaseInDB])
+
+@router.get('/teachers/',
+            response_model=List[TeacherBaseInDB]
+            )
 async def list_teachers(
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> List[TeacherBaseInDB]:
@@ -19,7 +22,10 @@ async def list_teachers(
     return teachers
 
 
-@router.post('/teachers/', response_model=TeacherBase, status_code=HTTP_201_CREATED)
+@router.post('/teachers/',
+             response_model=TeacherBase,
+             status_code=HTTP_201_CREATED
+             )
 async def create_teacher(
         teacher: TeacherBase,
         db: AsyncIOMotorClient = Depends(get_database)
@@ -28,7 +34,10 @@ async def create_teacher(
     return dbteacher
 
 
-@router.get('/teachers/{id}', response_model=TeacherBase, status_code=HTTP_200_OK)
+@router.get('/teachers/{id}',
+            response_model=TeacherBase,
+            status_code=HTTP_200_OK
+            )
 async def retrieve_teacher(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)
