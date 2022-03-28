@@ -20,6 +20,6 @@ Build on **Python: 3.8**.
 1. Localhost
    - ```pip install poetry```
    - ```poetry install```
-   - ```uvicorn app.main:app --port "8000" --bind "0.0.0.0" -- reload```
+   - ```uvicorn app.main:app --port "8000" --bind "0.0.0.0" -- reload``` or ```run.sh```
 2. Docker
    - ```docker-compose up --build```
