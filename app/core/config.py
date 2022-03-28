@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     MONGO_PORT: int = 27017
     MONGO_USER: str = 'admin'
     MONGO_PASS: str = 'admin'
-    MONGO_DB: str = 'kimetsu'
+    MONGO_DATABASE: str = 'kimetsu'
     #
     SECRET_KEY: str = 'supersecret'
     ALGORITHM: str = 'HS256'
