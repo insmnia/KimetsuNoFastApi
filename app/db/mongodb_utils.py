@@ -8,7 +8,7 @@ settings = get_settings()
 
 async def connect():
     logger.info("Connecting to MongoDB...")
-    mongo_url = f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASS}@{settings.MONGO_HOST}:{settings.MONGO_PORT}/{settings.MONGO_DB}"
+    mongo_url = f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASS}@{settings.MONGO_HOST}:{settings.MONGO_PORT}/{settings.MONGO_DATABASE}?authSource=admin"
     db.client = AsyncIOMotorClient(mongo_url)
     logger.info("Connected to MongoDB")
 
