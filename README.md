@@ -17,9 +17,10 @@ Build on **Python: 3.8**.
 
 ## Installation and usage 
 > create env file and fill it as in example
-1. Localhost
-   - ```pip install poetry```
-   - ```poetry install```
-   - ```uvicorn app.main:app --port "8000" --bind "0.0.0.0" -- reload``` or ```run.sh```
-2. Docker
-   - ```docker-compose up --build```
+1. ```make prepare``` to test code and check it with flake8
+2. ```make run``` to run docker containter
+## Usage on localhost
+1. ```pip install poetry```
+2. ```poetry install```
+3. ```poetry shell```
+4. ```uvicorn app.main:app --bind "0.0.0.0" --port "8000" --reload --workers 2
