@@ -10,7 +10,8 @@ Focused on performance, less own code and infrastructure.*
 - Works well **async** (all, with db)  
 - Env file parsed by Pydantic    
 - **ObjectID** works well with **FastAPI** & **Pydantic** (I've created custom field. Compatible with FastAPI generic docs)    
-- Structure with **Dependency Injection** (database implementation)    
+- Structure with **Dependency Injection** (database implementation)
+- **Sentry** errors monitoring
 
 Build on **Python: 3.8**.    
 
