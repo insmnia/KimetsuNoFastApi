@@ -1,14 +1,24 @@
 version: "3"
 
 services:
-  web:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./app/Dockerfile
     ports:
       - "8000:8000"
     depends_on:
       - mongo
+
+  nginx:
+    container_name: "nginx"
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - app
 
   mongo:
     image: mongo

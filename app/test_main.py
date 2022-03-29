@@ -2,8 +2,7 @@ import pytest
 
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
-from conftests import UserFactory, minutes, override_get_database
-from app.db.mongodb import get_database
+from conftests import UserFactory
 from app.main import app
 from httpx import AsyncClient
 from app.db.mongodb import get_database
