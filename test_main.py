@@ -2,7 +2,20 @@ import pytest
 
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
-from conftests import UserFactory, minutes
+from conftests import UserFactory, minutes, override_get_database
+from app.db.mongodb import get_database
+from app.main import app
+from httpx import AsyncClient
+from app.db.mongodb import get_database
+
+
+@pytest.mark.asyncio
+async def test_list_hunter(override_get_database):
+    app.dependency_overrides[get_database] = override_get_database
+    async with AsyncClient(app=app, base_url="") as ac:
+        response = await ac.get('/api/v1/hunters/')
+
+    assert response.status_code == 200
 
 
 def test_password_hashing():
