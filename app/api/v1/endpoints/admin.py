@@ -10,5 +10,4 @@ async def maintaince_mod(
         on: bool
 ):
     settings.MAINTAINCE_MODE = int(on)
-
     return {'Maintaince': on}
