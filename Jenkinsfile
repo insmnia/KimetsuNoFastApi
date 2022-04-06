@@ -6,8 +6,8 @@ pipeline {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pip install --user -r requirements.txt'
                     echo "Done with requirements"
-                    sh 'pytest'
-                    sh 'flake8 app/'
+                    sh 'python -m pytest'
+                    sh 'python -m flake8 app/'
                     sh 'dir'
                 }
             }
