@@ -6,10 +6,12 @@ pipeline {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pip install --user -r requirements.txt'
                     echo "Done with requirements"
-                    sh 'python -m pytest'
-                    sh 'python -m flake8 app/'
-                    sh 'dir'
                 }
+            }
+        }
+        stage('lint'){
+            steps {
+                sh 'python -m flake8 app/'
             }
         }
     }
