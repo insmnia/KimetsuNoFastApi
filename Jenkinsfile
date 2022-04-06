@@ -4,8 +4,8 @@ pipeline {
         stage('build') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pip install poetry'
-                    sh 'poetry install'
+                    sh 'pip install --user -r requirements.txt'
+                    echo "done"
                 }
             }
         }
