@@ -24,8 +24,7 @@ async def list_teachers(
 
 @router.post('/teachers/',
              response_model=TeacherBase,
-             status_code=HTTP_201_CREATED
-             )
+             status_code=HTTP_201_CREATED)
 async def create_teacher(
         teacher: TeacherBase,
         db: AsyncIOMotorClient = Depends(get_database)
@@ -36,8 +35,7 @@ async def create_teacher(
 
 @router.get('/teachers/{id}',
             response_model=TeacherBase,
-            status_code=HTTP_200_OK
-            )
+            status_code=HTTP_200_OK)
 async def retrieve_teacher(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)

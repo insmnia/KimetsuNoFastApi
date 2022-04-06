@@ -36,8 +36,7 @@ class UserService:
             password: str
     ) -> UserInDB:
         db_user = await cls.get_user(conn, username)
-        if not db_user or not await cls.verify_password(
-                password, db_user.hashed_password
-        ):
+        if not db_user or not \
+                await cls.verify_password(password, db_user.hashed_password):
             return False
         return db_user

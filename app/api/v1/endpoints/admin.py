@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from starlette.status import HTTP_200_OK
+
 from app.core.config import get_settings
 
 router = APIRouter()
@@ -12,3 +14,8 @@ async def maintaince_mod(
     settings.MAINTAINCE_MODE = int(on)
 
     return {'Maintaince': on}
+
+
+@router.get('/healthcheck/')
+async def healthcheck():
+    return HTTP_200_OK

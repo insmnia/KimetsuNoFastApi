@@ -74,8 +74,7 @@ async def list_users(
 
 @router.post('/users/',
              response_model=UserCreate,
-             status_code=HTTP_201_CREATED
-             )
+             status_code=HTTP_201_CREATED)
 async def create_user(
         user: UserCreate,
         db: AsyncIOMotorClient = Depends(get_database)

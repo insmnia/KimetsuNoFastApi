@@ -21,6 +21,4 @@ RUN poetry config virtualenvs.create false \
 
 # Creating folders, and files for a project:
 COPY . .
-RUN chmod +x entrypoint.sh
-CMD ["sh","entrypoint.sh"]
 CMD ["sh","run.sh"]
