@@ -9,7 +9,7 @@ settings = get_settings()
 
 
 class CRUDMixin:
-    db_name: str = settings.MONGO_DB
+    db_name: str = settings.MONGO_DATABASE
     Collection: str
     CreateScheme: Any
     RetrieveScheme: Any

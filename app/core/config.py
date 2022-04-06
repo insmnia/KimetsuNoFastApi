@@ -7,12 +7,12 @@ class Settings(BaseSettings):
     MONGO_PORT: int = 27017
     MONGO_USER: str = 'admin'
     MONGO_PASS: str = 'admin'
-    MONGO_DB: str = 'kimetsu'
+    MONGO_DATABASE: str = 'kimetsu'
     #
-    SECRET_KEY: str
-    ALGORITHM: str
-    TOKEN_EXPIRE_MINUTES: int
-    MAINTAINCE_MODE: int
+    SECRET_KEY: str = 'supersecret'
+    ALGORITHM: str = 'HS256'
+    TOKEN_EXPIRE_MINUTES: int = 30
+    MAINTAINCE_MODE: int = 0
 
     class Config:
         env_file = '.env'

@@ -8,7 +8,8 @@ from starlette.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_404_NOT_FOUND
 
 from app.core.config import get_settings
 from app.core.http_exception import (
-    credential_exception, unauthorized_exception
+    credential_exception,
+    unauthorized_exception
 )
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
