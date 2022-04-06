@@ -12,7 +12,7 @@ pipeline {
         }
         stage('test'){
             steps{
-                sh 'pytest -q'
+                bat 'pytest test_main.py'
             }
         }
     }
