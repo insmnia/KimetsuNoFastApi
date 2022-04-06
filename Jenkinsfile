@@ -6,12 +6,13 @@ pipeline {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pip install --user -r requirements.txt'
                     echo "done"
+                    sh 'dir'
                 }
             }
         }
         stage('test'){
             steps{
-                sh 'make test'
+                sh 'make lint'
             }
         }
     }
