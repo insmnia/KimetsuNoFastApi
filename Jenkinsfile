@@ -12,7 +12,7 @@ pipeline {
         }
         stage('test'){
             steps{
-                bat 'pytest test_main.py'
+                bash 'pytest test_main.py'
             }
         }
     }
