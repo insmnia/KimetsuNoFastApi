@@ -15,8 +15,8 @@ from app.core.services.user import UserService
 from app.db.mongodb import get_database
 from app.models.token import Token
 from app.models.user import UserBase, UserInDB, UserCreate
-from core.utils import OID
-from crud.user import UserCRUD
+from app.core.utils import OID
+from app.crud.user import UserCRUD
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/v1/token')
 router = APIRouter()

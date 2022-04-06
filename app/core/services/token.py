@@ -4,7 +4,7 @@ from jose import jwt, JWTError
 
 from app.core.config import get_settings
 from app.core.http_exception import credential_exception
-from models.token import TokenData
+from app.models.token import TokenData
 
 settings = get_settings()
 

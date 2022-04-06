@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from app.core.utils import OID, MongoModel
-from .teacher import TeacherBaseInDB
+from app.models.teacher import TeacherBaseInDB
 
 
 class HunterBase(BaseModel):

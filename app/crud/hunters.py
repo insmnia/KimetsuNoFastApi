@@ -5,8 +5,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from app.core.config import hunters_collection_name, teachers_collection_name
 from app.models.hunter import HunterBase, HunterBaseInDB, HunterFull
 from app.models.teacher import TeacherBaseInDB
-from core.utils import OID
-from .mixins import CRUDMixin
+from app.core.utils import OID
+from app.crud.mixins import CRUDMixin
 
 
 class HunterCRUD(CRUDMixin):
