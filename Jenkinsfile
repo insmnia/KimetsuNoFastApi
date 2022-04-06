@@ -3,7 +3,13 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'python --version'
+                sh 'pip install poetry'
+                sh 'poetry install'
+            }
+        }
+        stage('test'){
+            steps{
+                sh 'make test'
             }
         }
     }
