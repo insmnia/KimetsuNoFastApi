@@ -10,9 +10,14 @@ pipeline {
                 }
             }
         }
+        stage('lint'){
+            steps{
+                sh 'flake8 app/'
+            }
+        }
         stage('test'){
             steps{
-                sh 'make lint'
+                sh 'pytest -q'
             }
         }
     }
