@@ -12,7 +12,9 @@ from app.models.teacher import TeacherBase, TeacherBaseInDB
 router = APIRouter()
 
 
-@router.get('/teachers/', response_model=List[TeacherBaseInDB])
+@router.get('/teachers/',
+            response_model=List[TeacherBaseInDB]
+            )
 async def list_teachers(
         db: AsyncIOMotorClient = Depends(get_database)
 ) -> List[TeacherBaseInDB]:
