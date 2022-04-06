@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'pip install poetry'
-                sh 'poetry install'
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install poetry'
+                    sh 'poetry install'
+                }
             }
         }
         stage('test'){
