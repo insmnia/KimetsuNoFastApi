@@ -1,16 +1,10 @@
 pipeline {
-  agent { docker { image 'python:3.9' } }
-  stages {
-    stage('build') {
-      steps {
-        sh 'pip install poetry'
-        sh 'poetry install'
-      }
+    agent { docker { image 'python:3.9' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'python --version'
+            }
+        }
     }
-    stage('test') {
-      steps {
-        sh 'make test'
-      }   
-    }
-  }
 }
