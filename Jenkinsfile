@@ -3,12 +3,9 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pip install --user -r requirements.txt'
-                    echo "Done with requirements"
-                    sh 'pytest'
-                    sh 'flake8 app/'
-                    sh 'dir'
+                withPythonEnv('python3') {
+                    sh 'pip install pytest'
+                    sh 'pytest test_main.py'
                 }
             }
         }
