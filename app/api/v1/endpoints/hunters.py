@@ -35,7 +35,9 @@ async def create_hunter(
     return HTTP_201_CREATED
 
 
-@router.get('/hunters/{id}', response_model=HunterBase, status_code=HTTP_200_OK)
+@router.get('/hunters/{id}',
+            response_model=HunterBase,
+            status_code=HTTP_200_OK)
 async def retrieve_hunter(
         id: OID,
         db: AsyncIOMotorClient = Depends(get_database)

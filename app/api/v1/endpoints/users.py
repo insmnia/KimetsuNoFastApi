@@ -7,7 +7,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from starlette.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_404_NOT_FOUND
 
 from app.core.config import get_settings
-from app.core.http_exception import credential_exception, unauthorized_exception
+from app.core.http_exception import (
+    credential_exception, unauthorized_exception
+)
 from app.core.services.token import TokenService
 from app.core.services.user import UserService
 from app.db.mongodb import get_database
@@ -69,7 +71,9 @@ async def list_users(
     return users
 
 
-@router.post('/users/', response_model=UserCreate, status_code=HTTP_201_CREATED)
+@router.post('/users/',
+             response_model=UserCreate,
+             status_code=HTTP_201_CREATED)
 async def create_user(
         user: UserCreate,
         db: AsyncIOMotorClient = Depends(get_database)

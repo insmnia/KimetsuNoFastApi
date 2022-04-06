@@ -3,7 +3,9 @@ from fastapi.responses import PlainTextResponse
 from starlette.responses import Response
 
 from app.core.config import get_settings
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.middleware.base import (
+    BaseHTTPMiddleware, RequestResponseEndpoint
+)
 
 settings = get_settings()
 

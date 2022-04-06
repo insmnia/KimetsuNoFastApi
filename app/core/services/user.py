@@ -23,7 +23,8 @@ class UserService:
             conn: AsyncIOMotorClient,
             username: str
     ) -> UserInDB:
-        user = await conn[settings.MONGO_DB][users_collection_name].find_one({"username": username})
+        user = await conn[settings.MONGO_DB][users_collection_name] \
+            .find_one({"username": username})
         if user:
             return UserInDB(**user)
 
@@ -35,6 +36,7 @@ class UserService:
             password: str
     ) -> UserInDB:
         db_user = await cls.get_user(conn, username)
-        if not db_user or not await cls.verify_password(password, db_user.hashed_password):
+        if not db_user or not \
+                await cls.verify_password(password, db_user.hashed_password):
             return False
         return db_user
