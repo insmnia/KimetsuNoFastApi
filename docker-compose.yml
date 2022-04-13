@@ -1,7 +1,8 @@
 version: "3"
 
 services:
-  web:
+  app:
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
 
   mongo:
     image: mongo
+    container_name: mongo
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -19,3 +21,11 @@ services:
       - MONGO_INITDB_DATABASE=kimetsu
     ports:
       - "27017:27017" # remove this line on prod
+
+  nginx:
+    container_name: "nginx"
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+      - "80:80"

@@ -10,7 +10,6 @@ ENV PYTHONFAULTHANDLER=1 \
 
 # System deps:
 RUN pip install "poetry==$POETRY_VERSION"
-
 # Copy only requirements to cache them in docker layer
 WORKDIR .
 COPY poetry.lock pyproject.toml ./
@@ -18,7 +17,6 @@ COPY poetry.lock pyproject.toml ./
 # Project initialization:
 RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi
-
 # Creating folders, and files for a project:
 COPY . .
-CMD ["sh","run.sh"]
+CMD ["sh","entrypoint.sh"]

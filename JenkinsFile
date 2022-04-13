@@ -1,14 +1,14 @@
 pipeline {
-    agent { docker { image 'python:3.10.1-alpine' } }
+    agent { docker { image 'python:3.9' } }
     stages {
-        stage('build') {
+        stage('Prepare') {
             steps {
-                sh 'poetry install'
-            }
-        }
-        stage('test') {
-            steps {
-                sh 'make test'
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install --user -r requirements.txt'
+                    sh 'python -m flake8 app/'
+                    sh 'python -m pytest'
+                    echo "Done with requirements"
+                }
             }
         }
     }

@@ -11,4 +11,7 @@ done
 
 echo "MongoDB started"
 
+# shellcheck disable=SC2093
+exec gunicorn app.main:app -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0
+
 exec "$@"

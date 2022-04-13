@@ -13,7 +13,7 @@ async def connect():
                 f"{settings.MONGO_PASS}@" \
                 f"{settings.MONGO_HOST}:" \
                 f"{settings.MONGO_PORT}/" \
-                f"{settings.MONGO_DB}"
+                f"{settings.MONGO_DATABASE}"
     db.client = AsyncIOMotorClient(mongo_url)
     logger.info("Connected to MongoDB")
 
